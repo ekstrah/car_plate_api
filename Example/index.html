@@ -1,0 +1,39 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <!-- <script>
+        var openFile = function(file) {
+            var input = file.target;
+
+            var reader = new FileReader();
+            reader.onload = function(){
+            var dataURL = reader.result;
+            var output = document.getElementById('output');
+            output.src = dataURL;
+            };
+            reader.readAsDataURL(input.files[0]);
+            console.log(input.files[0])
+        };
+        </script> -->
+
+        <input type="file" onchange="uploadFile(this)" />
+<script>
+        function uploadFile(inputElement) {
+          var file = inputElement.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            const options = {
+                method: 'POST',
+                body: formData,
+            };
+             fetch('http://127.0.0.1:5000/car-plate', options)
+            // Handle success
+            .then(response => response.json())  // convert to json
+            .then(json => console.log(json))    //print data to console
+            .catch(err => console.log('Request Failed', err)); // Catch errors
+          }
+</script>
+    </body>
+</html>

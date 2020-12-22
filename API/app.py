@@ -2,12 +2,17 @@
 # encoding: utf-8
 import json
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from PIL import Image
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import easyocr
 
+
+app = Flask(__name__)
+app.run(debug=True)
+CORS(app)
 #Working Function
 plt.style.use('dark_background')
 reader = easyocr.Reader(['ko'], gpu=False)
@@ -263,7 +268,7 @@ def translate_car(pil_image):
 
 #Ending Working Function
 
-app = Flask(__name__)
+
 @app.route('/')
 def index():
     return jsonify({'name': 'alice','email': 'alice@outlook.com'})
@@ -272,9 +277,10 @@ def index():
 @app.route('/car-plate', methods=["POST"])
 def car_plate():
     file = request.files['image']
+    file_test = file
+
     img = Image.open(file.stream)
     car_num = translate_car(img)
 
+    # return jsonify({'msg': 'success'})
     return jsonify({'msg' : 'success', 'plate': car_num})
-if __name__ == "__main__":
-    app.run(debug=True)
